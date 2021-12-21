@@ -12,19 +12,35 @@ from json_loader import json_load
 from returnsDf import agg_df
 pd.options.display.float_format = '${:,.2f}'.format
 one_day=timedelta(days=1)
+st.set_page_config(page_title="SquareoffbotsPerformance",layout='wide')
+st.markdown("""<style> div[role="listbox"] ul {
+    background-color: rgb(229, 236, 122);
+    }
+    div[role="listbox"],option{
+        float:right; 
+    }
+</style>
+
+"""
+    
+    ,unsafe_allow_html=True)
+
 pnl_url=r'http://performance.squareoffbots.com/assets/json/sqbots_allData_21052021.json'
 cap_url=r'http://performance.squareoffbots.com/assets/json/newCAp21052021.json'
-charges_dic=json_load('charges.json')
-pnl_data=requests.get(pnl_url)
-cap_data=requests.get(cap_url)
-pnl_df_t=pd.DataFrame.from_dict(json.loads(pnl_data.text))
-cap_df_t=pd.DataFrame.from_dict(json.loads(cap_data.text))
+charges_url=r'http://performance.squareoffbots.com/assets/json/charges.json'
+charges_dic=requests.get(charges_url).json()
+pnl_data=requests.get(pnl_url).json()
+cap_data=requests.get(cap_url).json()
+pnl_df_t=pd.DataFrame.from_dict(pnl_data)
+cap_df_t=pd.DataFrame.from_dict(cap_data)
 pnl_df=pnl_df_t.T
 cap_df=cap_df_t.T
 query_params = st.experimental_get_query_params()
 botName = query_params["bot"][0] if "bot" in query_params else "bss"
+
 botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"1% Short Straddle (BNF)","mssn":"1% Short Straddle(NF)"}
 botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":300000,"orb2pm":300000,"pcr":300000,"lapp":300000,"bss":300000,"nss":300000,"bos":300000,"grbo":150000,"bssr":300000,"bnfmon":150000,"mlb":400000,"mss":300000,"mssn":300000}
+botName = st.selectbox('Select a Strategy',tuple(botNameDic.keys()))
 eq_bots=["orb","rsi","sh","it"]
 botFullName=botNameDic[botName]
 botCapital=botCapitalDic[botName]
@@ -42,13 +58,18 @@ charges_types=['Brokerage','TransactionCharges','ClearingCharges','STT','GST','S
 def getCharges(x):
     notGotCharges=True
     cDayObj=datetime.strptime(x,'%Y-%m-%d')
+    direction=-1
+    direction_counter=0
     while notGotCharges:
         try:            
             return charges_dic['daily'][cDayObj.strftime('%Y%m%d')][botName.upper()+'_'+ct]
 
         except:
-            
-            cDayObj-=one_day
+            direction_counter+=1
+            if direction_counter==10:
+                direction*=-1
+            print(botName,direction_counter,cDayObj)
+            cDayObj+=direction*one_day
             continue
 for ct in charges_types:
     strat_df[ct]=strat_df.index.to_series().apply(lambda x:getCharges(x))
@@ -99,11 +120,10 @@ if botName in eq_bots:
     capital_used_appendum=''
 else:    
     capital_used_appendum=' per Lot' 
-st.set_page_config(page_title="SquareoffbotsPerformance",layout='wide')
+
 
 title_text="<h1 style='text-align: center; color: rgb(21, 86, 112);'>**♟**SQUAREOFF BOTS PERFORMANCE**♟**</h1><br><div style='text-align: center; color: rgb(21, 86, 112);'>**LIVE PERFORMANCE OF "+botFullName+"****[Capital used is "+str(botCapital)+capital_used_appendum+"]** </div>"
 st.markdown(title_text, unsafe_allow_html=True)
-
 
 
 
@@ -111,10 +131,12 @@ if botCapital>50000 and botName!='mlb':
     # col1.write("**(Capital used before July 2021 is "+str(int(botCapital/1.5))+capital_used_appendum+")**")
     st.markdown("<div style='text-align: center; color: rgb(21, 86, 112);'>**(Capital used before July 2021 is "+str(int(botCapital/1.5))+capital_used_appendum+")** </div>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
+col2.markdown('##')
+
 col1.write("Net ROI : "+str(results_row[-1])+"%")
 col1.write("**Statistics**")
 col1.table(t_stats_Df)
-col2.markdown('##')
+
 
 
 col2.write("**PNL Curve**")
