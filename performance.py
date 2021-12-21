@@ -68,7 +68,7 @@ def getCharges(x):
             direction_counter+=1
             if direction_counter==10:
                 direction*=-1
-            print(botName,direction_counter,cDayObj)
+            
             cDayObj+=direction*one_day
             continue
 for ct in charges_types:
