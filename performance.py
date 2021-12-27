@@ -28,7 +28,8 @@ st.markdown("""<style> div[role="listbox"] ul {
 pnl_url=r'http://performance.squareoffbots.com/assets/json/sqbots_allData_21052021.json'
 cap_url=r'http://performance.squareoffbots.com/assets/json/newCAp21052021.json'
 charges_url=r'http://performance.squareoffbots.com/assets/json/charges.json'
-charges_dic=requests.get(charges_url).json()
+# charges_dic=requests.get(charges_url).json()
+charges_dic=json_load('charges.json')
 pnl_data=requests.get(pnl_url).json()
 cap_data=requests.get(cap_url).json()
 pnl_df_t=pd.DataFrame.from_dict(pnl_data)
@@ -63,18 +64,21 @@ strat_df[botFullName+'_gross_PnL']=strat_df[botFullName+'_adj_PnL']
 charges_types=['Brokerage','TransactionCharges','ClearingCharges','STT','GST','SEBI','StampDuty','TotalCharges']
 def getCharges(x):
     notGotCharges=True
+    original_date=x
     cDayObj=datetime.strptime(x,'%Y-%m-%d')
     direction=-1
     direction_counter=0
+ 
     while notGotCharges:
         try:            
-            return charges_dic['daily'][cDayObj.strftime('%Y%m%d')][botName.upper()+'_'+ct]
+            return charges_dic[cDayObj.strftime('%Y%m%d')][botName.upper()+'_'+ct]
 
-        except:
+        except Exception as e:
             direction_counter+=1
             if direction_counter==10:
                 direction*=-1
-            
+        
+           
             cDayObj+=direction*one_day
             continue
 for ct in charges_types:
