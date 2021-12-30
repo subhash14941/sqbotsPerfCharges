@@ -30,7 +30,7 @@ cap_url=r'http://performance.squareoffbots.com/assets/json/newCAp21052021.json'
 charges_url=r'http://performance.squareoffbots.com/assets/json/charges.json'
 
 query_params = st.experimental_get_query_params()
-@st.cache()
+@st.cache(ttl=20*60*60)
 def getResources1():
     charges_dic=requests.get(charges_url).json()
     # charges_dic=json_load('charges.json')
@@ -42,6 +42,7 @@ def getResources1():
     cap_df=cap_df_t.T    
     return charges_dic,pnl_data,cap_data,pnl_df,cap_df,query_params
 charges_dic,pnl_data,cap_data,pnl_df,cap_df,query_params=getResources1()
+charges_dic=requests.get(charges_url).json()
 botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"1% Short Straddle (BNF)","mssn":"1% Short Straddle(NF)"}
 botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":300000,"orb2pm":300000,"pcr":300000,"lapp":300000,"bss":300000,"nss":300000,"bos":300000,"grbo":150000,"bssr":300000,"bnfmon":150000,"mlb":400000,"mss":300000,"mssn":300000}
 botName = query_params["bot"][0] if "bot" in query_params else None
