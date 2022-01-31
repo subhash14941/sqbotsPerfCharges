@@ -19,6 +19,7 @@ st.markdown("""<style> div[role="listbox"] ul {
     div[role="listbox"],option{
         float:right; 
     }
+    #MainMenu {display:none;}
 </style>
 
 """
