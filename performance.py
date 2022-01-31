@@ -20,6 +20,9 @@ st.markdown("""<style> div[role="listbox"] ul {
         float:right; 
     }
     #MainMenu {display:none;}
+    footer {display:none !important}
+
+
 </style>
 
 """
