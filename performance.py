@@ -91,7 +91,17 @@ def getCharges(x):
 for ct in charges_types:
     strat_df[ct]=strat_df.index.to_series().apply(lambda x:getCharges(x))
 i_fields=['PNL','Brokerage','TransactionCharges','ClearingCharges','STT','GST','SEBI','StampDuty','TotalCharges','net_PNL']
-strat_df['net_PNL']=strat_df[botFullName+'_gross_PnL']-strat_df['TotalCharges']
+
+
+
+
+##xxx
+if botName in eq_bots:
+    i_fields=["PNL"]
+    strat_df['net_PNL']=strat_df[botFullName+'_gross_PnL']
+else:
+    strat_df['net_PNL']=strat_df[botFullName+'_gross_PnL']-strat_df['TotalCharges']
+
 strat_df['net_rets']=100*strat_df['net_PNL']/botCapital
 strat_df["Time"]=strat_df.index
 strat_df['PNL']=strat_df[botFullName+'_adj_PnL']
@@ -117,7 +127,11 @@ max_loss=strat_df[botFullName+'_adj_PnL'].min()
 win_average_profit=win_df[botFullName+'_adj_PnL'].sum()/win_days
 loss_average_profit=lose_df[botFullName+'_adj_PnL'].sum()/lose_days
 total_profit=strat_df[botFullName+'_adj_PnL'].sum()
-total_charges=strat_df['TotalCharges'].sum()
+
+if botName not in eq_bots:
+    total_charges=strat_df['TotalCharges'].sum()
+else:
+    total_charges=0
 net_profit=total_profit-total_charges
 average_profit=total_profit/total_days
 gross_returns=strat_df[botFullName+' Returns'].sum()
