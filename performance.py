@@ -59,7 +59,7 @@ botsList=['bss']+botsList
 if not botName:
     botName = st.selectbox('Select a Strategy',tuple(botsList))
 
-@st.cache(ttl=20*60*60,suppress_st_warning=True)
+@st.cache(ttl=20*60*60,suppress_st_warning=True,allow_output_mutation=True)
 def strategy_statistics():
     ret_dic={}
     for botName in curBots:
