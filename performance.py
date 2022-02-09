@@ -125,7 +125,7 @@ def strategy_statistics():
         drawdown_df['max_value_so_far']=drawdown_df['cum_pnl'].cummax()
         drawdown_df['drawdown']=drawdown_df['cum_pnl']-drawdown_df['max_value_so_far']
         max_drawdown=drawdown_df['drawdown'].min()
-        ##Strategy statistics
+        ##Strategy statistics .
         stats_Df=pd.DataFrame(columns=["Total Days","Winning Days","Losing Days","Winning Accuracy(%)","Max Profit","Max Loss","Max Drawdown","Average Profit on Win Days","Average Profit on loss days","Average Profit Per day","Gross Profit","Charges","Net profit","Returns (%)","net Returns (%)"])
         total_days=len(strat_df)
         win_df=strat_df[strat_df[botFullName+'_adj_PnL'].astype('float')>0]
