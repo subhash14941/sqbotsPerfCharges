@@ -49,7 +49,7 @@ def getResources1():
     return charges_dic,pnl_data,cap_data,pnl_df,cap_df,query_params
 charges_dic,pnl_data,cap_data,pnl_df,cap_df,query_params=getResources1()
 # charges_dic=requests.get(charges_url).json()
-botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"1% Short Straddle (BNF)","mssn":"1% Short Straddle (NF)",,"dts":"Double Top"}
+botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"1% Short Straddle (BNF)","mssn":"1% Short Straddle (NF)","dts":"Double Top"}
 botCapitalDic={"orb":50000,"rsi":50000,"it":50000,"sh":50000,"grb":300000,"orb2pm":300000,"pcr":300000,"lapp":300000,"bss":300000,"nss":300000,"bos":300000,"grbo":150000,"bssr":300000,"bnfmon":150000,"mlb":400000,"mss":300000,"mssn":300000,"dts":150000}
 curBots=['orb','rsi','it','grb','bss','grbo','bssr','bnfmon','mlb','mss','mssn','dts']
 botName = query_params["bot"][0] if "bot" in query_params else None
