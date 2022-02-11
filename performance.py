@@ -1,4 +1,3 @@
-from matplotlib.pyplot import text
 import pandas as pd
 from pandas import Timestamp
 import numpy as np
