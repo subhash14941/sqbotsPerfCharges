@@ -1,2 +1,4 @@
 performanceGit/
 __pycache__/
+performance_old.py
+lambda_strategy_statistics.py
