@@ -36,8 +36,12 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 query_params = st.experimental_get_query_params()
 
-streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
-ret_dic=requests.get(streamlit_data_url).json()
+@st.cache(ttl=8*60*60)
+def get_ret_dic():
+    streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
+    ret_dic=requests.get(streamlit_data_url).json()
+    return ret_dic
+ret_dic=get_ret_dic()
 
 # charges_dic=requests.get(charges_url).json()
 botNameDic={"orb":"ORB","rsi":"RSI","it":"Intraday Trend","sh":"StopHunt","grb":"GRB","orb2pm":"ORB2pm","pcr":"NiftyOptionSelling","lapp":"Learnapp","bss":"BNF Straddle","nss":"Nifty Straddle","bos":"BNFOptionSelling","grbo":"GRB Options","bssr":"BNF Strangle","mlb":"ML Bot","bnfmon":"BNF ORB","mss":"1% Short Straddle (BNF)","mssn":"1% Short Straddle(NF)","dts":"Double Top"}
