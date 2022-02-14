@@ -9,7 +9,6 @@ import plotly.express as px
 import requests,json
 from datetime import datetime, time,timedelta
 import plotly.express as px
-from returnsDf import agg_df
 import warnings
 import io
 warnings.filterwarnings('ignore')
