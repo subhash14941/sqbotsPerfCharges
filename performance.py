@@ -62,7 +62,7 @@ botCapital,capital_used_appendum,results_row,t_stats_Df,month_groups,strat_df,dr
 with open('strat_df.txt','w') as fw:
     fw.write(strat_df)
 def df_from_string(str):
-    jstr=eval(str.replace('nan',None))
+    jstr=eval(str.replace('nan','0'))
     df=pd.DataFrame.from_dict(jstr)
     
     return df
