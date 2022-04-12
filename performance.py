@@ -33,7 +33,7 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 
 query_params = st.experimental_get_query_params()
-# st.legacy_caching.clear_cache()
+st.legacy_caching.clear_cache()
 @st.cache(ttl=23*60*60)
 def get_ret_dic():
     streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
@@ -68,6 +68,7 @@ t_stats_Df=df_from_string(t_stats_Df)
 month_groups=df_from_string(month_groups)
 strat_df=df_from_string(strat_df)
 drawdown_df=df_from_string(drawdown_df)
+results_row=results_row.replace('nan','0')
 results_row=eval(results_row)
 
 title_text="<h1 style='text-align: center; color: rgb(21, 86, 112);'>**♟**SQUAREOFF BOTS PERFORMANCE**♟**</h1><br><div style='text-align: center; color: rgb(21, 86, 112);'>**LIVE PERFORMANCE OF "+botFullName+"****[Capital used is "+str(botCapital)+capital_used_appendum+"]** </div>"
