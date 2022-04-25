@@ -33,7 +33,7 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 
 query_params = st.experimental_get_query_params()
-st.legacy_caching.clear_cache()
+# st.legacy_caching.clear_cache()
 @st.cache(ttl=23*60*60)
 def get_ret_dic():
     streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
