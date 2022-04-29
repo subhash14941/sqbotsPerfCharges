@@ -33,7 +33,7 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 
 query_params = st.experimental_get_query_params()
-#st.legacy_caching.clear_cache()
+st.legacy_caching.clear_cache()
 @st.cache(ttl=23*60*60)
 def get_ret_dic():
     streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
@@ -97,5 +97,12 @@ st.write("**Month-wise PNL**")
 st.table(month_groups)
 st.write("**Date-wise PNL (Last 30 Days)**")
 st.table(strat_df[i_fields][:30])
+
+# strat_df['Date']=strat_df.index
+# strat_df['pd_date']=pd.to_datetime(strat_df['Date'],format='%Y-%m-%d')
+# strat_df.sort_values('pd_date',inplace=True)
+# strat_df.sort_index(key=lambda x:datetime.strptime(x,'%Y-%m-%d'),inplace=True)
+# strat_df.drop('pd_date',axis=1,inplace=True)
+# strat_df.to_csv(f"{botName}.csv")
 
 
