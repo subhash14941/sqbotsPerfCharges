@@ -36,7 +36,7 @@ query_params = st.experimental_get_query_params()
 #st.legacy_caching.clear_cache()
 @st.cache(ttl=23*60*60)
 def get_ret_dic():
-    streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data.json'
+    streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data_ppl.json'
     ret_dic=requests.get(streamlit_data_url).json()
     return ret_dic
 ret_dic=get_ret_dic()
