@@ -55,8 +55,7 @@ botsList=['bss']+botsList
 if not botName:
     botName = st.selectbox('Select a Strategy',tuple(botsList))
 
-print(ret_dic)
-print(input())
+
 botCapital,capital_used_appendum,results_row,t_stats_Df,month_groups,strat_df,drawdown_df,i_fields,botFullName=ret_dic[botName]
 # with open('strat_df.txt','w') as fw:
 #     fw.write(strat_df)
