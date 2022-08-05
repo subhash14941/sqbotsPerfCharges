@@ -33,8 +33,8 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 
 query_params = st.experimental_get_query_params()
-st.legacy_caching.clear_cache()
-#@st.cache(ttl=23*60*60)
+#st.legacy_caching.clear_cache()
+@st.cache(ttl=23*60*60)
 def get_ret_dic():
     streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data_ppl.json'
     ret_dic=requests.get(streamlit_data_url).json()
@@ -55,7 +55,8 @@ botsList=['bss']+botsList
 if not botName:
     botName = st.selectbox('Select a Strategy',tuple(botsList))
 
-
+print(ret_dic)
+print(input())
 botCapital,capital_used_appendum,results_row,t_stats_Df,month_groups,strat_df,drawdown_df,i_fields,botFullName=ret_dic[botName]
 # with open('strat_df.txt','w') as fw:
 #     fw.write(strat_df)
