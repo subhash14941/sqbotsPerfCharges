@@ -33,12 +33,18 @@ st.markdown("""<style> div[role="listbox"] ul {
 
 
 query_params = st.experimental_get_query_params()
-#st.legacy_caching.clear_cache()
-@st.cache(ttl=23*60*60)
+st.legacy_caching.clear_cache()
+#@st.cache(ttl=23*60*60)
 def get_ret_dic():
     streamlit_data_url=r'https://dailysymbols.s3.ap-south-1.amazonaws.com/streamlit_data_ppl.json'
     ret_dic=requests.get(streamlit_data_url).json()
     return ret_dic
+# def get_ret_dic():
+#     from json_loader import json_load
+#     return json_load('streamlit_data_ppl.json')
+#     with open('streamlit_data_ppl.json','r') as fr:
+#         data=eval(fr.read().replace("'",'"'))
+#         return data
 ret_dic=get_ret_dic()
 
 # charges_dic=requests.get(charges_url).json()
@@ -64,7 +70,10 @@ def df_from_string(str):
     df=pd.DataFrame.from_dict(jstr)
     
     return df
+
 t_stats_Df=df_from_string(t_stats_Df)
+
+
 month_groups=df_from_string(month_groups)
 strat_df=df_from_string(strat_df)
 drawdown_df=df_from_string(drawdown_df)
